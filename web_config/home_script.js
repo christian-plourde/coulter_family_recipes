@@ -23,7 +23,7 @@ else {
 } 
 
 //now load the most popular recipes into an array
-var get_popular_recipes = 'select top 5 * from Recipe_Access order by ACCESS_TIMESTAMP';
+var get_popular_recipes = 'select top 5 * from Recipe_Access order by ACCESS_TIMESTAMP desc';
 
 $.ajax({
     type: 'POST',
@@ -32,8 +32,7 @@ $.ajax({
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     success: function (response) {
-
-        console.log(response.d);
+        document.getElementById("test").innerHTML = response.d;
     },
     error: function (error) {
         console.log(error);
