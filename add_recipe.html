@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Add a new recipe</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="web_config/event_handlers.js"></script>
+    <script src="web_config/load_config.js"></script>
+    <script src="web_config/add_recipe_script.js"></script>
+    <link rel="stylesheet" href="web_config/add_recipe_style.css" />
+</head>
+<body>
+    <div id="title_bar">Add Recipe
+        <img id="home_button" src="web_config/images/home_light_blue.png" onclick="add_recipe_home_click()"/>
+    </div>
+    <div id="recipe_name_div">
+        <input class ="add_recipe_input" placeholder="New Recipe Name"/>
+    </div>
+    <div id="recipe_type_div">
+        <select class="add_recipe_drop_down" id="recipe_type_drop_down" placeholder="Recipe Type"></select>
+    </div>
+</body>
+</html>

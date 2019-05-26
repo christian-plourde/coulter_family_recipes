@@ -3,6 +3,7 @@
 <head>
 	<title>Coulter Family Recipes</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="web_config/load_config.js"></script>
     <script src="web_config/home_script.js"></script>
     <script src="web_config/event_handlers.js"></script>
     <link rel="stylesheet" href="web_config/home_style.css" />
@@ -10,12 +11,14 @@
 <body>
 	<div id="title_bar">
         <p id="page_title" onclick="location.reload()" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()">Coulter Family Recipes</p>
+        <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Breakfast</p>
         <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Dessert</p>
-        <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Drink</p>
+        <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Drinks</p>
     </div>
     <br />
     <br />
     <div id="recipe_list">
         <p class="recipe_list_title">Recent Recipes</p>
     </div>
+    <img id="plus_icon" src="web_config/images/plus_icon_navy.png" onmouseenter="plus_icon_mouse_enter()" onmouseout="plus_icon_mouse_out()" onclick="plus_icon_click()"/>
 </body>

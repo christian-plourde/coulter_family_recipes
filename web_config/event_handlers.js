@@ -71,3 +71,23 @@ function category_click()
         }
     });
 }
+
+function plus_icon_mouse_enter()
+{
+    event.srcElement.src = "web_config/images/plus_icon_green.png";
+}
+
+function plus_icon_mouse_out()
+{
+    event.srcElement.src = "web_config/images/plus_icon_navy.png";
+}
+
+function plus_icon_click()
+{
+    location.href = "add_recipe.html";
+}
+
+function add_recipe_home_click()
+{
+    location.href = "home.html";
+}

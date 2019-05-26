@@ -37,15 +37,22 @@ body {
 
 #recipe_list
 {
-    padding: 10px;
+    padding: 20px;
 }
 
 .recipe_list_title {
     color: #001f3f;
 }
 
-.recipe_name
-{
-    border-left: 10px solid green;
+.recipe_name {
+    border-left: 10px solid #3D9970;
     padding: 10px;
+}
+
+#plus_icon
+{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
 }
