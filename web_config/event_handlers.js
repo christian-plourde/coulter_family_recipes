@@ -62,7 +62,7 @@ function category_click()
             }
 
             catch (error) {
-                console.log("error");
+                console.log(error);
             }
 
         },
@@ -90,4 +90,61 @@ function plus_icon_click()
 function add_recipe_home_click()
 {
     location.href = "home.html";
+}
+
+function add_new_ingredient_input()
+{
+    //when we click this we should add a row for a new ingredient
+    var new_div = document.createElement("div");
+    var ingredients_div = document.getElementById("ingredients_div");
+    ingredients_div.appendChild(new_div);
+
+    //to this new div we need to append 2 inputs and 1 select box
+    var ingredient_name_input = document.createElement("input");
+    ingredient_name_input.placeholder = "Ingredient";
+    ingredient_name_input.className = "add_ingredient_input";
+    new_div.appendChild(ingredient_name_input);
+
+    var ingredient_quantity_input = document.createElement("input");
+    ingredient_quantity_input.placeholder = "Quantity";
+    ingredient_quantity_input.className = "add_ingredient_quantity_input";
+    new_div.appendChild(ingredient_quantity_input);
+
+    var ingredient_units = document.createElement("select");
+    ingredient_units.className = "add_ingredient_unit_drop_down";
+
+    //for the drop down we also need to add all the options
+    for (var i = 0; i < unit_types.length; i++)
+    {
+        var new_option = document.createElement("option");
+        new_option.innerHTML = unit_types[i];
+        new_option.value = unit_types[i];
+        ingredient_units.appendChild(new_option);
+    }
+
+    new_div.appendChild(ingredient_units);
+}
+
+function add_new_direction_input()
+{
+    //here we need one input only that will have a text beside it that says the step number
+    var new_div = document.createElement("div");
+    var directions_div = document.getElementById("directions_div");
+    directions_div.appendChild(new_div);
+
+    var step_number = document.createElement("h");
+    step_number.innerHTML = "Step Number " + (++steps_entered) + ":";
+    step_number.className = "step_numbers";
+    new_div.appendChild(step_number);
+
+    var direction_input = document.createElement("input");
+    direction_input.placeholder = "Direction";
+    direction_input.className = "add_direction_input";
+    new_div.appendChild(direction_input);
+}
+
+function add_recipe_button_click()
+{
+    console.log(document.getElementById("recipe_name").value);
+    console.log(document.getElementById("parent_recipe_name").value);
 }

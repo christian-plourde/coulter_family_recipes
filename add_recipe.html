@@ -14,10 +14,30 @@
         <img id="home_button" src="web_config/images/home_light_blue.png" onclick="add_recipe_home_click()"/>
     </div>
     <div id="recipe_name_div">
-        <input class ="add_recipe_input" placeholder="New Recipe Name"/>
+        <input id="recipe_name" class ="add_recipe_input" placeholder="New Recipe Name"/>
+    </div>
+    <div id="parent_recipe_name_div">
+        <select id="parent_recipe_name" class="add_recipe_input" />
     </div>
     <div id="recipe_type_div">
         <select class="add_recipe_drop_down" id="recipe_type_drop_down" placeholder="Recipe Type"></select>
+    </div>
+    <div id="ingredients_div">
+        &nbsp Add Ingredients
+        <img id="add_ingredients_button" src="web_config/images/plus_icon_navy.png" onmouseenter="plus_icon_mouse_enter()" onmouseout="plus_icon_mouse_out()" 
+             onclick="add_new_ingredient_input()"/>
+        <br />
+        <br />
+    </div>
+    <div id="directions_div">
+        &nbsp Add Directions
+        <img id="add_directions_button" src="web_config/images/plus_icon_navy.png" onmouseenter="plus_icon_mouse_enter()" onmouseout="plus_icon_mouse_out()"
+             onclick="add_new_direction_input()" />
+        <br />
+        <br />
+    </div>
+    <div id="submission_div">
+        <button id="add_recipe_button" onclick="add_recipe_button_click()">Add Recipe</button>
     </div>
 </body>
 </html>
