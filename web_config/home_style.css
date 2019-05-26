@@ -1,0 +1,29 @@
+﻿@font-face {
+    font-family: 'Sansation';
+    src: url('fonts/SansationRegular.eot');
+    src: url('fonts/SansationRegular.eot?#iefix') format('embedded-opentype'), url('fonts/SansationRegular.woff') format('woff'), url('fonts/SansationRegular.svg#SansationRegular') format('svg');
+}
+
+body {
+    font-family: 'Sansation', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    margin: 0px;
+}
+
+#title_bar
+{
+    width:100%;
+    float: left;
+}
+
+#page_title
+{
+    float: left;
+    color: blue;
+}
+
+#dessert_title
+{
+    float: left;
+}

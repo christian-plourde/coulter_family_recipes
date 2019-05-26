@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <sqlQueryFunctionURL>http://localhost/coulter_family_recipes.asmx/SQLQuery</sqlQueryFunctionURL>
+  <sqlTransactionFunctionURL>http://localhost/coulter_family_recipes.asmx/SQLTransaction</sqlTransactionFunctionURL>
+</root>
