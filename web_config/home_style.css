@@ -15,15 +15,37 @@ body {
 {
     width:100%;
     float: left;
+    position: absolute;
+    top: -18px;
 }
 
-#page_title
-{
+#page_title {
     float: left;
-    color: blue;
+    padding: 20px;
+    background-color: #001f3f;
+    color: #7FDBFF;
+    width: 20%;
 }
 
-#dessert_title
-{
+.category_name {
+    width: 10%;
     float: left;
+    background-color: #001f3f;
+    padding: 20px;
+    color: #7FDBFF;
+}
+
+#recipe_list
+{
+    padding: 10px;
+}
+
+.recipe_list_title {
+    color: #001f3f;
+}
+
+.recipe_name
+{
+    border-left: 10px solid green;
+    padding: 10px;
 }
