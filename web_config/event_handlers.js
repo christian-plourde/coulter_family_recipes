@@ -114,6 +114,10 @@ function add_new_ingredient_input()
     ingredient_units.className = "add_ingredient_unit_drop_down";
 
     //for the drop down we also need to add all the options
+    var empty_option = document.createElement("option");
+    empty_option.innerHTML = "Unit Type";
+    empty_option.value = 0;
+    ingredient_units.appendChild(empty_option);
     for (var i = 0; i < unit_types.length; i++)
     {
         var new_option = document.createElement("option");
@@ -145,6 +149,21 @@ function add_new_direction_input()
 
 function add_recipe_button_click()
 {
-    console.log(document.getElementById("recipe_name").value);
-    console.log(document.getElementById("parent_recipe_name").value);
+    //when this button is clicked we should get all the data that we need to do all the transactions prepared
+    var recipe_name = document.getElementById("recipe_name").value;
+    console.log(recipe_name);
+    var parent_recipe_name = document.getElementById("parent_recipe_name").value;
+    console.log(parent_recipe_name);
+    var ingredient_names = new Array();
+    for (var i = 0; i < document.getElementById("ingredients_div").getElementsByClassName("add_ingredient_input").length; i++)
+    {
+        ingredient_names.push(document.getElementById("ingredients_div").getElementsByClassName("add_ingredient_input")[i].value);
+    }
+    console.log(ingredient_names);
+    var ingredient_quantities = new Array();
+    for (var i = 0; i < document.getElementById("ingredients_div").getElementsByClassName("add_ingredient_quantity_input").length; i++)
+    {
+        ingredient_quantities.push(document.getElementById("ingredients_div").getElementsByClassName("add_ingredient_quantity_input")[i].value);
+    }
+    console.log(ingredient_quantities);
 }

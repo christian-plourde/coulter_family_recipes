@@ -62,7 +62,6 @@ $.ajax({
             var xml_doc = parser.parseFromString(response.d, "text/xml");
             var rows = xml_doc.getElementsByTagName("row");
             var recipe_type_select = document.getElementById("recipe_type_drop_down");
-            unit_types.push("");
             for (var i = 0; i < rows.length; i++) {
                 var cols = rows[i].getElementsByTagName("col");
                 for (var j = 0; j < cols.length; j++) {
@@ -110,8 +109,8 @@ $.ajax({
             var parent_recipes = document.getElementById("parent_recipe_name");
             //also add an empty option
             var empty_option = document.createElement("option")
-            empty_option.innerHTML = "";
-            empty_option.value = "";
+            empty_option.innerHTML = "Select Parent Recipe (Ex. Audrey Squares for Audrey Squares Icing)";
+            empty_option.value = 0;
             parent_recipes.appendChild(empty_option);
 
             for (var i = 0; i < rows.length; i++) {
