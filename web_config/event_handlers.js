@@ -20,7 +20,7 @@ function category_click()
 
     var category_name = event.srcElement.innerHTML;
     var sql_query = "select Recipe_Names.RECIPE_NAME from Recipe_Names join Recipe_Class on Recipe_Names.RECIPE_NAME = Recipe_Class.RECIPE_NAME " +
-        "join Recipe_Access on Recipe_Names.RECIPE_NAME = Recipe_Access.RECIPE_NAME " +
+        "left join Recipe_Access on Recipe_Names.RECIPE_NAME = Recipe_Access.RECIPE_NAME " +
         "where Recipe_Class.RECIPE_CATEGORY = '" + category_name + "' order by ACCESS_TIMESTAMP desc";
 
     //select all the recipe names for that category and place them in the appropriate div
@@ -56,6 +56,8 @@ function category_click()
                         new_par.innerHTML = cols[j].childNodes[0].nodeValue;
                         document.getElementById("recipe_list").appendChild(new_par);
                         new_par.className = "recipe_name";
+                        //we also need to set what happens when we click this new_paragraph
+                        new_par.onclick = recipe_name_click;
                         
                     }
                 }
@@ -242,16 +244,46 @@ function add_recipe_button_click()
     //if it is valid then we need to start doing the ajax calls
     //it is possible that an ajax call will fail (i.e. bad data in the sql transaction)
     //if this happens the transactions that passed must be rolled back
-    try
-    {
-        //first add the new recipe name
-        var new_recipe_name = "insert int Recipe_Names values ('" + recipe_name + "')";
+    //first add the new recipe name
+    var new_recipe_name = "insert into Recipe_Names values ('" + recipe_name + "')";
 
-        //select all the recipe names for that category and place them in the appropriate div
+    $.ajax({
+        type: 'POST',
+        url: sqlTransactionFunctionURL,
+        data: '{"sql_query": "' + new_recipe_name + '"}',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+
+            //we need to parse the xml document that we received in the response
+            var parser = new DOMParser();
+            var xml_doc;
+            try {
+
+                var xml_doc = parser.parseFromString(response.d, "text/xml");
+                var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                if (accepted == "false")
+                    throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+            }
+
+            catch (error) {
+                alert(error);
+            }
+
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+
+    //next we need to add the parent recipe name if there is one
+    if (parent_recipe_name != 0) {
+        var parent_recipe_query = "insert into Recipe_Subrecipes values ('" + parent_recipe_name + "','" + recipe_name + "')";
+
         $.ajax({
             type: 'POST',
             url: sqlTransactionFunctionURL,
-            data: '{"sql_query": "' + new_recipe_name + '"}',
+            data: '{"sql_query": "' + parent_recipe_query + '"}',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             success: function (response) {
@@ -273,21 +305,133 @@ function add_recipe_button_click()
 
             },
             error: function (error) {
-                console.log(error);
+                alert(error);
             }
         });
+    }
 
-        //next we need to add the parent recipe name if there is one
-        if (parent_recipe_name != 0)
-        {
-            
+    //next we set the type of recipe that it is
+    var recipe_type_query = "insert into Recipe_Class values('" + recipe_name + "','" + recipe_type + "')";
+
+    $.ajax({
+        type: 'POST',
+        url: sqlTransactionFunctionURL,
+        data: '{"sql_query": "' + recipe_type_query + '"}',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+
+            //we need to parse the xml document that we received in the response
+            var parser = new DOMParser();
+            var xml_doc;
+            try {
+
+                var xml_doc = parser.parseFromString(response.d, "text/xml");
+                var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                if (accepted == "false")
+                    throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+            }
+
+            catch (error) {
+                alert(error);
+            }
+
+        },
+        error: function (error) {
+            alert(error);
         }
+    });
+
+    //next we set the ingredients for that recipe
+    //since each of the arrays will have the same length we can loop over the ingredient_names length but set all the values (quantity and type as well)
+    for (var i = 0; i < ingredient_names.length; i++) {
+        //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
+        var recipe_ing_query;
+        recipe_ing_query = "insert into Recipe_Ingredients values('" + recipe_name + "','" + ingredient_names[i] + "','" + ingredient_quantities[i] +
+            "','" + ingredient_units[i] + "')";
+
+        if (ingredient_units[i] == "0") {
+            recipe_ing_query = "insert into Recipe_Ingredients values('" + recipe_name + "','" + ingredient_names[i] + "','" + ingredient_quantities[i] +
+                "', NULL)";
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: sqlTransactionFunctionURL,
+            data: '{"sql_query": "' + recipe_ing_query + '"}',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+
+                //we need to parse the xml document that we received in the response
+                var parser = new DOMParser();
+                var xml_doc;
+                try {
+
+                    var xml_doc = parser.parseFromString(response.d, "text/xml");
+                    var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                    if (accepted == "false")
+                        throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+                }
+
+                catch (error) {
+                    alert(error);
+                }
+
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
     }
 
-    catch (error)
-    {
-        console.log(error);
+    //finally we set the directions for that recipe
+    for (var i = 0; i < directions.length; i++) {
+        //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
+        var recipe_dir_query = "insert into Recipe_Directions values('" + recipe_name + "','" + (i + 1) + "','" + directions[i] + "')";
+
+        $.ajax({
+            type: 'POST',
+            url: sqlTransactionFunctionURL,
+            data: '{"sql_query": "' + recipe_dir_query + '"}',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+
+                //we need to parse the xml document that we received in the response
+                var parser = new DOMParser();
+                var xml_doc;
+                try {
+
+                    var xml_doc = parser.parseFromString(response.d, "text/xml");
+                    var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                    if (accepted == "false")
+                        throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+                }
+
+                catch (error) {
+                    alert(error);
+                }
+
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
     }
 
+}
 
+function recipe_name_click()
+{
+    //this is what happens when we click on a recipe name on the home page
+    location.href = "recipe.html?recipe=" + event.srcElement.innerHTML;
+}
+
+function get_recipe_name_from_url()
+{
+    var url = location.href;
+    var recipe_name = url.substr(url.indexOf('=') + 1);
+    recipe_name = recipe_name.replace(/%20/g, ' ');
+    return(recipe_name);
 }

@@ -29,6 +29,7 @@ $.ajax({
                     new_par.innerHTML = cols[j].childNodes[0].nodeValue;
                     document.getElementById("recipe_list").appendChild(new_par);
                     new_par.className = "recipe_name";
+                    new_par.onclick = recipe_name_click;
                 }
             }
         }
@@ -43,3 +44,4 @@ $.ajax({
         console.log(error);
     }
 });
+
