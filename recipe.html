@@ -6,8 +6,12 @@
     <title></title>
     <script src="web_config/event_handlers.js"></script>
     <script src="web_config/recipe_page_script.js"></script>
+    <link rel="stylesheet" href="web_config/recipe_style.css" />
 </head>
 <body>
-
+    <div id="title_bar">
+        <img id="home_button" src="web_config/images/home_light_blue.png" onclick="add_recipe_home_click()" />
+    </div>
+    <script>document.getElementById("title_bar").innerHTML += recipe_context;</script>
 </body>
 </html>
