@@ -48,6 +48,9 @@ button:focus
     border: 1px solid #001f3f;
     border-radius: 20px;
     width: 50%;
+    font-family: 'Sansation', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
 }
 
 .add_recipe_drop_down {
@@ -56,6 +59,9 @@ button:focus
     border-radius: 20px;
     padding: 10px;
     border: 1px solid #001f3f;
+    font-family: 'Sansation', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
 }
 
 #home_button{
@@ -82,6 +88,9 @@ button:focus
     border-radius: 100px;
     width: 10%;
     margin-left: 10px;
+    font-family: 'Sansation', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
 }
 
 .add_ingredient_unit_drop_down {
@@ -92,6 +101,9 @@ button:focus
     margin-left: 10px;
     border: 1px solid #001f3f;
     margin-bottom: 5px;
+    font-family: 'Sansation', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
 }
 
 #directions_div {
@@ -109,6 +121,9 @@ button:focus
     border: 1px solid #001f3f;
     border-radius: 20px;
     width: 50%;
+    font-family: 'Sansation', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
 }
 
 .add_direction_input {
@@ -117,6 +132,9 @@ button:focus
     border-radius: 20px;
     width: 50%;
     margin-bottom: 5px;
+    font-family: 'Sansation', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
 }
 
 .step_numbers

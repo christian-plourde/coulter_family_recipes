@@ -178,6 +178,8 @@ function add_recipe_button_click()
         directions.push(document.getElementById("directions_div").getElementsByClassName("add_direction_input")[i].value);
     }
     //console.log(directions);
+    var recipe_type = document.getElementById("recipe_type_select").value;
+    //console.log(recipe_type);
 
     //now that all the data in the page is stored
     //we need to validate the inputs
