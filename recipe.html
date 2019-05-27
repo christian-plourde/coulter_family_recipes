@@ -12,6 +12,10 @@
     <div id="title_bar">
         <img id="home_button" src="web_config/images/home_light_blue.png" onclick="add_recipe_home_click()" />
     </div>
-    <script>document.getElementById("title_bar").innerHTML += recipe_context;</script>
+    <script>
+        //set the title of the page to the name of the recipe
+        document.getElementById("title_bar").innerHTML += recipe_context;
+        document.getElementsByTagName("title")[0].innerHTML = recipe_context;
+    </script>
 </body>
 </html>
