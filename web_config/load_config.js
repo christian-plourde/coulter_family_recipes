@@ -1,6 +1,6 @@
 ﻿//load configuration settings
 var sqlQueryFunctionURL;
-var sqlTrasactionFunctionURL;
+var sqlTransactionFunctionURL;
 
 if (typeof window.DOMParser != "undefined") {
     var xmlhttp = new XMLHttpRequest();
