@@ -24,3 +24,10 @@ body {
     vertical-align: middle;
     margin: 0px 30px 0px 0px;
 }
+
+#ingredients_list
+{
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #001f3f;
+}

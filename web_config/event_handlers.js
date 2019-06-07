@@ -420,6 +420,9 @@ function add_recipe_button_click()
         });
     }
 
+    //once we have reached this point we know that the recipe was added successfully
+    //we should display a message to say that it worked properly
+    alert("Recipe was added successfully");
 }
 
 function recipe_name_click()
