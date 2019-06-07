@@ -5,7 +5,7 @@ function load_ingredients()
 {
     //we need to load all the ingredients that correspond to the recipe that the page was loaded for
     var sql_query = "select INGREDIENT_NAME, QUANTITY, QUANTITY_TYPE from Recipe_Ingredients where RECIPE_NAME = '" + recipe_context + "'";
-
+    //TODO put this query in backend
     $.ajax({
         type: 'POST',
         url: sqlQueryFunctionURL,

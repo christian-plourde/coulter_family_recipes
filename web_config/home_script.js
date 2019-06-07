@@ -1,6 +1,6 @@
 ﻿//now load the most popular recipes into an array
 var get_popular_recipes = 'select top 5 RECIPE_NAME from Recipe_Access order by ACCESS_TIMESTAMP desc';
-
+//TODO put this query in backend
 $.ajax({
     type: 'POST',
     url: sqlQueryFunctionURL,

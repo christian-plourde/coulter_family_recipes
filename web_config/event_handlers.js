@@ -23,6 +23,7 @@ function category_click()
         "left join Recipe_Access on Recipe_Names.RECIPE_NAME = Recipe_Access.RECIPE_NAME " +
         "where Recipe_Class.RECIPE_CATEGORY = '" + category_name + "' order by ACCESS_TIMESTAMP desc";
 
+    //TODO place this query in backend
     //select all the recipe names for that category and place them in the appropriate div
     $.ajax({
         type: 'POST',
@@ -247,6 +248,7 @@ function add_recipe_button_click()
     //first add the new recipe name
     var new_recipe_name = "insert into Recipe_Names values ('" + recipe_name + "')";
 
+    //TODO put this query in backend
     $.ajax({
         type: 'POST',
         url: sqlTransactionFunctionURL,
@@ -279,7 +281,7 @@ function add_recipe_button_click()
     //next we need to add the parent recipe name if there is one
     if (parent_recipe_name != 0) {
         var parent_recipe_query = "insert into Recipe_Subrecipes values ('" + parent_recipe_name + "','" + recipe_name + "')";
-
+        //TODO put this query in backend
         $.ajax({
             type: 'POST',
             url: sqlTransactionFunctionURL,
@@ -312,7 +314,7 @@ function add_recipe_button_click()
 
     //next we set the type of recipe that it is
     var recipe_type_query = "insert into Recipe_Class values('" + recipe_name + "','" + recipe_type + "')";
-
+    //TODO put this query in backend
     $.ajax({
         type: 'POST',
         url: sqlTransactionFunctionURL,
@@ -354,7 +356,7 @@ function add_recipe_button_click()
             recipe_ing_query = "insert into Recipe_Ingredients values('" + recipe_name + "','" + ingredient_names[i] + "','" + ingredient_quantities[i] +
                 "', NULL)";
         }
-
+        //TODO put this query in backend
         $.ajax({
             type: 'POST',
             url: sqlTransactionFunctionURL,
@@ -389,7 +391,7 @@ function add_recipe_button_click()
     for (var i = 0; i < directions.length; i++) {
         //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
         var recipe_dir_query = "insert into Recipe_Directions values('" + recipe_name + "','" + (i + 1) + "','" + directions[i] + "')";
-
+        //TODO put this query in backend
         $.ajax({
             type: 'POST',
             url: sqlTransactionFunctionURL,

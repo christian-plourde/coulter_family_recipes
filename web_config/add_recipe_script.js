@@ -2,7 +2,7 @@
 var unit_types = new Array();
 
 var get_unit_types = 'select distinct QUANTITY_TYPE from Recipe_Ingredients where QUANTITY_TYPE is not null';
-
+//TODO put this query in backend
 $.ajax({
     type: 'POST',
     url: sqlQueryFunctionURL,
@@ -47,7 +47,7 @@ var steps_entered = 0; //this tracks the number of steps in the new recipe
 
 //we also need to add all of the names of the recipes to the parent recipe drop down so the user can select from approved choices
 var get_recipe_names = 'select Recipe_Name from Recipe_Names';
-
+//TODO put this query in backend
 $.ajax({
     type: 'POST',
     url: sqlQueryFunctionURL,
@@ -98,7 +98,7 @@ $.ajax({
 //when the add recipe page loads, we need to add options programatically to the select tag for the recipe type
 //now load the most popular recipes into an array
 var get_recipe_types = 'select * from Recipe_Categories';
-
+//TODO put this query in backend
 $.ajax({
     type: 'POST',
     url: sqlQueryFunctionURL,
