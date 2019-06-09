@@ -19,16 +19,15 @@ function category_click()
     empty_element(document.getElementById('recipe_list').id);
 
     var category_name = event.srcElement.innerHTML;
-    var sql_query = "select Recipe_Names.RECIPE_NAME from Recipe_Names join Recipe_Class on Recipe_Names.RECIPE_NAME = Recipe_Class.RECIPE_NAME " +
-        "left join Recipe_Access on Recipe_Names.RECIPE_NAME = Recipe_Access.RECIPE_NAME " +
-        "where Recipe_Class.RECIPE_CATEGORY = '" + category_name + "' order by ACCESS_TIMESTAMP desc";
+    var category_array = new Array();
+    category_array.push(category_name);
 
     //TODO place this query in backend
     //select all the recipe names for that category and place them in the appropriate div
     $.ajax({
         type: 'POST',
-        url: sqlQueryFunctionURL,
-        data: '{"sql_query": "' + sql_query + '"}',
+        url: getRecipesByCategoryURL,
+        data: generate_data_string(category_array),
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         success: function (response) {
@@ -246,13 +245,13 @@ function add_recipe_button_click()
     //it is possible that an ajax call will fail (i.e. bad data in the sql transaction)
     //if this happens the transactions that passed must be rolled back
     //first add the new recipe name
-    var new_recipe_name = "insert into Recipe_Names values ('" + recipe_name + "')";
+    var recipe_name_array = new Array();
+    recipe_name_array.push(recipe_name);
 
-    //TODO put this query in backend
     $.ajax({
         type: 'POST',
-        url: sqlTransactionFunctionURL,
-        data: '{"sql_query": "' + new_recipe_name + '"}',
+        url: insertRecipeNameURL,
+        data: generate_data_string(recipe_name_array),
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         success: function (response) {
@@ -280,12 +279,12 @@ function add_recipe_button_click()
 
     //next we need to add the parent recipe name if there is one
     if (parent_recipe_name != 0) {
-        var parent_recipe_query = "insert into Recipe_Subrecipes values ('" + parent_recipe_name + "','" + recipe_name + "')";
-        //TODO put this query in backend
+        var parent_recipe_array = new Array();
+        parent_recipe_array.push(parent_recipe_name, recipe_name);
         $.ajax({
             type: 'POST',
-            url: sqlTransactionFunctionURL,
-            data: '{"sql_query": "' + parent_recipe_query + '"}',
+            url: insertSubRecipeURL,
+            data: generate_data_string(parent_recipe_array),
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             success: function (response) {
@@ -313,12 +312,12 @@ function add_recipe_button_click()
     }
 
     //next we set the type of recipe that it is
-    var recipe_type_query = "insert into Recipe_Class values('" + recipe_name + "','" + recipe_type + "')";
-    //TODO put this query in backend
+    var recipe_type_array = new Array();
+    recipe_type_array.push(recipe_name, recipe_type);
     $.ajax({
         type: 'POST',
-        url: sqlTransactionFunctionURL,
-        data: '{"sql_query": "' + recipe_type_query + '"}',
+        url: setRecipeTypeURL,
+        data: generate_data_string(recipe_type_array),
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         success: function (response) {
@@ -348,19 +347,13 @@ function add_recipe_button_click()
     //since each of the arrays will have the same length we can loop over the ingredient_names length but set all the values (quantity and type as well)
     for (var i = 0; i < ingredient_names.length; i++) {
         //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
-        var recipe_ing_query;
-        recipe_ing_query = "insert into Recipe_Ingredients values('" + recipe_name + "','" + ingredient_names[i] + "','" + ingredient_quantities[i] +
-            "','" + ingredient_units[i] + "')";
+        var recipe_ing_array = new Array();
+        recipe_ing_array.push(recipe_name, ingredient_names[i], ingredient_quantities[i], ingredient_units[i]);
 
-        if (ingredient_units[i] == "0") {
-            recipe_ing_query = "insert into Recipe_Ingredients values('" + recipe_name + "','" + ingredient_names[i] + "','" + ingredient_quantities[i] +
-                "', NULL)";
-        }
-        //TODO put this query in backend
         $.ajax({
             type: 'POST',
-            url: sqlTransactionFunctionURL,
-            data: '{"sql_query": "' + recipe_ing_query + '"}',
+            url: insertRecipeIngredientURL,
+            data: generate_data_string(recipe_ing_array),
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             success: function (response) {
@@ -390,12 +383,12 @@ function add_recipe_button_click()
     //finally we set the directions for that recipe
     for (var i = 0; i < directions.length; i++) {
         //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
-        var recipe_dir_query = "insert into Recipe_Directions values('" + recipe_name + "','" + (i + 1) + "','" + directions[i] + "')";
-        //TODO put this query in backend
+        var recipe_dir_array = new Array();
+        recipe_dir_array.push(recipe_name, (i + 1), directions[i]);
         $.ajax({
             type: 'POST',
-            url: sqlTransactionFunctionURL,
-            data: '{"sql_query": "' + recipe_dir_query + '"}',
+            url: insertRecipeDirectionURL,
+            data: generate_data_string(recipe_dir_array),
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             success: function (response) {
@@ -431,6 +424,24 @@ function recipe_name_click()
 {
     //this is what happens when we click on a recipe name on the home page
     location.href = "recipe.html?recipe=" + event.srcElement.innerHTML;
+    //we should also update the last access for that recipe so it shows up in popular recipes
+
+    var recipe_access_array = new Array();
+    recipe_access_array.push(event.srcElement.innerHTML);
+
+    $.ajax({
+        type: 'POST',
+        url: updateRecipeAccessTimeURL,
+        data: generate_data_string(recipe_access_array),
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
 }
 
 function get_recipe_name_from_url()

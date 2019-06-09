@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <sqlQueryFunctionURL>http://192.168.2.12/coulter_family_recipes.asmx/SQLQuery</sqlQueryFunctionURL>
-  <sqlTransactionFunctionURL>http://192.168.2.12/coulter_family_recipes.asmx/SQLTransaction</sqlTransactionFunctionURL>
+  <loadIngredientsURL>http://192.168.2.12/coulter_family_recipes.asmx/load_ingredients</loadIngredientsURL>
+  <loadDirectionsURL>http://192.168.2.12/coulter_family_recipes.asmx/load_directions</loadDirectionsURL>
+  <getPopularRecipesURL>http://192.168.2.12/coulter_family_recipes.asmx/get_popular_recipes</getPopularRecipesURL>
+  <getRecipesByCategoryURL>http://192.168.2.12/coulter_family_recipes.asmx/get_recipes_by_category</getRecipesByCategoryURL>
+  <insertRecipeNameURL>http://192.168.2.12/coulter_family_recipes.asmx/insert_recipe_name</insertRecipeNameURL>
+  <insertSubRecipeURL>http://192.168.2.12/coulter_family_recipes.asmx/insert_subrecipe</insertSubRecipeURL>
+  <setRecipeTypeURL>http://192.168.2.12/coulter_family_recipes.asmx/set_recipe_type</setRecipeTypeURL>
+  <insertRecipeIngredientURL>http://192.168.2.12/coulter_family_recipes.asmx/insert_recipe_ingredient</insertRecipeIngredientURL>
+  <insertRecipeDirectionURL>http://192.168.2.12/coulter_family_recipes.asmx/insert_recipe_direction</insertRecipeDirectionURL>
+  <getUnitTypesURL>http://192.168.2.12/coulter_family_recipes.asmx/get_unit_types</getUnitTypesURL>
+  <getRecipeNamesURL>http://192.168.2.12/coulter_family_recipes.asmx/get_recipe_names</getRecipeNamesURL>
+  <getRecipeCategoriesURL>http://192.168.2.12/coulter_family_recipes.asmx/get_recipe_categories</getRecipeCategoriesURL>
+  <updateRecipeAccessTimeURL>http://192.168.2.12/coulter_family_recipes.asmx/update_recipe_access_time</updateRecipeAccessTimeURL>
 </root>

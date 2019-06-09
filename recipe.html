@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <title></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="web_config/utilities.js"></script>
     <script src="web_config/load_config.js"></script>
     <script src="web_config/event_handlers.js"></script>
     <script src="web_config/recipe_page_script.js"></script>
@@ -16,13 +17,24 @@
     </div>
     <!--This div will contain the ingredients for the recipe-->
     <div id="ingredients_list">
-        <p>Ingredients</p>
+        <p id="ingredients_header"></p>
+    </div>
+    <div id="directions_list">
+        
     </div>
     <script>
         //set the title of the page to the name of the recipe
+        document.getElementById("ingredients_header").innerHTML = recipe_context + " Ingredients:";
         document.getElementById("title_bar").innerHTML += recipe_context;
+        var printer_button = document.createElement("img");
+        printer_button.id = "printer_button";
+        printer_button.src = "web_config/images/printer_icon.png";
+        printer_button.onclick = function () { print(); };
+        document.getElementById("title_bar").appendChild(printer_button);
+
         document.getElementsByTagName("title")[0].innerHTML = recipe_context;
         load_ingredients();
+        load_directions();
     </script>
 </body>
 </html>
