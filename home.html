@@ -11,15 +11,21 @@
 </head>
 <body>
 	<div id="title_bar">
-        <p id="page_title" onclick="location.reload()" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()">Coulter Family Recipes</p>
-        <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Breakfast</p>
-        <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Dinner</p>
-        <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Dessert</p>
-        <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Drinks</p>
-        <p class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Soups</p>
+        <header id="page_title" onclick="location.reload()" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()">Coulter Family Recipes</header>
+        <header class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Breakfast</header>
+        <header class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Dinner</header>
+        <header class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Dessert</header>
+        <header class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Drinks</header>
+        <header class="category_name" onmouseenter="category_mouse_enter()" onmouseout="category_mouse_out()" onclick="category_click()">Soups</header>
     </div>
     <br />
     <br />
+    <br />
+    <br />
+    <div id="search_bar">
+        <input id="search_input" placeholder="Search for a recipe by name" type="search"/>
+        <img id="search_icon" src="web_config/images/search_icon.png" onclick="search_click()"/>
+    </div>
     <div id="recipe_list">
         <p class="recipe_list_title">Recent Recipes</p>
     </div>

@@ -175,4 +175,11 @@ public class coulter_family_recipes : System.Web.Services.WebService
         return result;
         
     }
+
+    [WebMethod]
+    public string search_by_name(string data_0)
+    {
+        //data_0: search term (name of recipe)
+        return sql_manager.SQLQuery(String.Format(ConfigurationManager.AppSettings["search_by_name_query"], data_0));
+    }
 }

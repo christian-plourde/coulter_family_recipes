@@ -439,7 +439,7 @@ function recipe_name_click()
 
         },
         error: function (error) {
-            alert(error);
+            console.log(error);
         }
     });
 }
@@ -473,6 +473,66 @@ function delete_button_click()
         },
         error: function (error) {
             alert(error);
+        }
+    });
+}
+
+function search_click()
+{
+    //when we do this, the first thing we need to do is change the inner html of the recent recipes title to search results
+    var recent_recipes_par = document.getElementsByClassName("recipe_list_title")[0];
+    recent_recipes_par.innerHTML = "Search Results";
+
+    //next we need to clear all of the child nodes of the div except for this one
+    var recipe_names = document.getElementsByClassName("recipe_name");
+    while (recipe_names.length != 0)
+    {
+        recipe_names = document.getElementsByClassName("recipe_name");
+        document.getElementById("recipe_list").removeChild(recipe_names[0]);
+    }
+
+    //now that this is done we need to load in the results of the search using a query
+    var search_term = new Array();
+    search_term.push(document.getElementById("search_input").value);
+    $.ajax({
+        type: 'POST',
+        url: searchByNameURL,
+        data: generate_data_string(search_term),
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+
+            //we need to parse the xml document that we received in the response
+            var parser = new DOMParser();
+            var xml_doc;
+            
+            try {
+                var xml_doc = parser.parseFromString(response.d, "text/xml");
+                var rows = xml_doc.getElementsByTagName("row");
+                for (var i = 0; i < rows.length; i++) {
+                    var cols = rows[i].getElementsByTagName("col");
+                    for (var j = 0; j < cols.length; j++) {
+                        //this allows us to get all the data in the xml file
+                        //console.log(cols[j].childNodes[0].nodeValue);
+
+                        //for each recipe, we want to add a paragraph in the recent recipes div
+                        var new_par = document.createElement("p");
+                        new_par.innerHTML = cols[j].childNodes[0].nodeValue;
+                        document.getElementById("recipe_list").appendChild(new_par);
+                        new_par.className = "recipe_name";
+                        new_par.onclick = recipe_name_click;
+                    }
+                }
+            }
+            
+            catch (error) {
+                console.log(error);
+            }
+            
+
+        },
+        error: function (error) {
+            console.log(error);
         }
     });
 }

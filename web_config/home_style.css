@@ -13,10 +13,10 @@ body {
 
 #title_bar
 {
-    width:100%;
+    width: 100%;
     float: left;
     position: absolute;
-    top: -18px;
+    vertical-align: middle;
 }
 
 #page_title {
@@ -28,7 +28,7 @@ body {
 }
 
 .category_name {
-    width: 10%;
+    width: 11%;
     float: left;
     background-color: #001f3f;
     padding: 20px;
@@ -37,7 +37,7 @@ body {
 
 #recipe_list
 {
-    padding: 20px;
+    padding-left: 20px;
 }
 
 .recipe_list_title {
@@ -55,4 +55,31 @@ body {
     right: 0;
     bottom: 0;
     padding: 20px;
+}
+
+#search_bar
+{
+    margin-left: 15px;
+}
+
+#search_icon
+{
+    vertical-align: middle;
+    height: 20px;
+    margin-left: 3px;
+}
+
+#search_input {
+    font-family: 'Sansation', Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    height: 25px;
+    width: 250px;
+    padding-left: 5px;
+    border-radius: 20px;
+    border: 2px solid #001f3f;
+}
+
+#search_input:focus{
+    outline-width: 0;
 }

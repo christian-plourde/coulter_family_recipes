@@ -14,4 +14,5 @@
   <getRecipeCategoriesURL>http://192.168.2.12/coulter_family_recipes.asmx/get_recipe_categories</getRecipeCategoriesURL>
   <updateRecipeAccessTimeURL>http://192.168.2.12/coulter_family_recipes.asmx/update_recipe_access_time</updateRecipeAccessTimeURL>
   <deleteRecipeURL>http://192.168.2.12/coulter_family_recipes.asmx/delete_recipe</deleteRecipeURL>
+  <searchByNameURL>http://192.168.2.12/coulter_family_recipes.asmx/search_by_name</searchByNameURL>
 </root>

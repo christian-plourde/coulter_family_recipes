@@ -66,12 +66,12 @@ function load_ingredients()
             }
 
             catch (error) {
-                alert(error);
+                console.log(error);
             }
 
         },
         error: function (error) {
-            alert(error);
+            console.log(error);
         }
     });
 }
@@ -138,6 +138,14 @@ function load_directions()
                         new_cell.className = "directions_table_cell";
                         new_cell.innerHTML = cols[j].childNodes[0].nodeValue;
 
+                        if (j == 1)
+                        {
+                            //if this is the case, then this is the step number. It should have a dot after the number
+                            new_cell.innerHTML += ".";
+                            //also it should be bold so that it stands out
+                            new_cell.style.fontWeight = "bold";
+                        }
+
                     }
                 
                 }
@@ -147,12 +155,12 @@ function load_directions()
             }
 
             catch (error) {
-                alert(error);
+                console.log(error);
             }
 
         },
         error: function (error) {
-            alert(error);
+            console.log(error);
         }
     });
 }
