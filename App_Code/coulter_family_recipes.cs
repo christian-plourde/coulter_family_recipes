@@ -132,4 +132,47 @@ public class coulter_family_recipes : System.Web.Services.WebService
         //data_0: recipe name
         return sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["update_recipe_access_time_query"], data_0, DateTime.Now));
     }
+
+    [WebMethod]
+    public string delete_recipe(string data_0)
+    {
+        //data_0: recipe name
+        string result = "Recipe was deleted successfully.";
+        XmlDocument doc = new XmlDocument();
+        try
+        {
+            doc.LoadXml(sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["delete_recipe_query_1"], data_0)));
+            if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
+                throw new Exception("Failed to remove directions for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
+
+            doc.LoadXml(sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["delete_recipe_query_2"], data_0)));
+            if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
+                throw new Exception("Failed to remove ingredients for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
+
+            doc.LoadXml(sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["delete_recipe_query_3"], data_0)));
+            if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
+                throw new Exception("Failed to remove subrecipes for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
+
+            doc.LoadXml(sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["delete_recipe_query_4"], data_0)));
+            if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
+                throw new Exception("Failed to remove access time for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
+
+            doc.LoadXml(sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["delete_recipe_query_5"], data_0)));
+            if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
+                throw new Exception("Failed to remove class for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
+
+            doc.LoadXml(sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["delete_recipe_query_6"], data_0)));
+            if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
+                throw new Exception("Failed to remove name for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
+
+        }
+
+        catch(Exception e)
+        {
+            return e.Message;
+        }
+
+        return result;
+        
+    }
 }

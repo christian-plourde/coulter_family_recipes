@@ -451,3 +451,28 @@ function get_recipe_name_from_url()
     recipe_name = recipe_name.replace(/%20/g, ' ');
     return(recipe_name);
 }
+
+function delete_button_click()
+{
+    var confirm_result = confirm("The recipe will be deleted.");
+    if (!confirm_result)
+        return;
+
+    var delete_recipe_array = new Array();
+    delete_recipe_array.push(recipe_context);
+
+    $.ajax({
+        type: 'POST',
+        url: deleteRecipeURL,
+        data: generate_data_string(delete_recipe_array),
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+            alert(response.d);
+            add_recipe_home_click();
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}

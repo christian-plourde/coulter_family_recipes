@@ -12,6 +12,7 @@ var getRecipeNamesURL;
 var getRecipeCategoriesURL;
 var updateRecipeAccessTimeURL;
 var loadDirectionsURL;
+var deleteRecipeURL;
 
 if (typeof window.DOMParser != "undefined") {
     var xmlhttp = new XMLHttpRequest();
@@ -34,6 +35,7 @@ if (typeof window.DOMParser != "undefined") {
     getRecipeNamesURL = config_xml.getElementsByTagName("getRecipeNamesURL")[0].childNodes[0].nodeValue;
     getRecipeCategoriesURL = config_xml.getElementsByTagName("getRecipeCategoriesURL")[0].childNodes[0].nodeValue;
     updateRecipeAccessTimeURL = config_xml.getElementsByTagName("updateRecipeAccessTimeURL")[0].childNodes[0].nodeValue;
+    deleteRecipeURL = config_xml.getElementsByTagName("deleteRecipeURL")[0].childNodes[0].nodeValue;
 }
 
 else {
@@ -53,4 +55,5 @@ else {
     getRecipeNamesURL = config_xml.selectNodes("getRecipeNamesURL")[0].xml;
     getRecipeCategoriesURL = config_xml.selectNodes("getRecipeCategoriesURL")[0].xml;
     updateRecipeAccessTimeURL = config_xml.selectNodes("updateRecipeAccessTimeURL")[0].xml;
+    deleteRecipeURL = config_xml.selectNodes("deletRecipeURL")[0].xml;
 } 

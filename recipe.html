@@ -30,7 +30,14 @@
         printer_button.id = "printer_button";
         printer_button.src = "web_config/images/printer_icon.png";
         printer_button.onclick = function () { print(); };
+
+        var delete_button = document.createElement("img");
+        delete_button.id = "delete_button";
+        delete_button.src = "web_config/images/trash_can.png";
+        delete_button.onclick = function () { delete_button_click();};
+
         document.getElementById("title_bar").appendChild(printer_button);
+        document.getElementById("title_bar").appendChild(delete_button);
 
         document.getElementsByTagName("title")[0].innerHTML = recipe_context;
         load_ingredients();
