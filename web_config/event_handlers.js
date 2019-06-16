@@ -245,6 +245,7 @@ function add_recipe_button_click()
     //it is possible that an ajax call will fail (i.e. bad data in the sql transaction)
     //if this happens the transactions that passed must be rolled back
     //first add the new recipe name
+    //this is critical since it is a fk for everything else
     var recipe_name_array = new Array();
     recipe_name_array.push(recipe_name);
 
@@ -271,70 +272,70 @@ function add_recipe_button_click()
                 alert(error);
             }
 
-        },
-        error: function (error) {
-            alert(error);
-        }
-    });
+            //next we need to add the parent recipe name if there is one
+            if (parent_recipe_name != 0) {
+                var parent_recipe_array = new Array();
+                parent_recipe_array.push(parent_recipe_name, recipe_name);
+                $.ajax({
+                    type: 'POST',
+                    url: insertSubRecipeURL,
+                    data: generate_data_string(parent_recipe_array),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
 
-    //next we need to add the parent recipe name if there is one
-    if (parent_recipe_name != 0) {
-        var parent_recipe_array = new Array();
-        parent_recipe_array.push(parent_recipe_name, recipe_name);
-        $.ajax({
-            type: 'POST',
-            url: insertSubRecipeURL,
-            data: generate_data_string(parent_recipe_array),
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            success: function (response) {
+                        //we need to parse the xml document that we received in the response
+                        var parser = new DOMParser();
+                        var xml_doc;
+                        try {
 
-                //we need to parse the xml document that we received in the response
-                var parser = new DOMParser();
-                var xml_doc;
-                try {
+                            var xml_doc = parser.parseFromString(response.d, "text/xml");
+                            var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                            if (accepted == "false")
+                                throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+                        }
 
-                    var xml_doc = parser.parseFromString(response.d, "text/xml");
-                    var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
-                    if (accepted == "false")
-                        throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
-                }
+                        catch (error) {
+                            alert(error);
+                        }
 
-                catch (error) {
-                    alert(error);
-                }
+                        //next we set the type of recipe that it is
+                        var recipe_type_array = new Array();
+                        recipe_type_array.push(recipe_name, recipe_type);
+                        $.ajax({
+                            type: 'POST',
+                            url: setRecipeTypeURL,
+                            data: generate_data_string(recipe_type_array),
+                            dataType: 'json',
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (response) {
 
-            },
-            error: function (error) {
-                alert(error);
-            }
-        });
-    }
+                                //we need to parse the xml document that we received in the response
+                                var parser = new DOMParser();
+                                var xml_doc;
+                                try {
 
-    //next we set the type of recipe that it is
-    var recipe_type_array = new Array();
-    recipe_type_array.push(recipe_name, recipe_type);
-    $.ajax({
-        type: 'POST',
-        url: setRecipeTypeURL,
-        data: generate_data_string(recipe_type_array),
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        success: function (response) {
+                                    var xml_doc = parser.parseFromString(response.d, "text/xml");
+                                    var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                                    if (accepted == "false")
+                                        throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+                                }
 
-            //we need to parse the xml document that we received in the response
-            var parser = new DOMParser();
-            var xml_doc;
-            try {
+                                catch (error) {
+                                    alert(error);
+                                }
 
-                var xml_doc = parser.parseFromString(response.d, "text/xml");
-                var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
-                if (accepted == "false")
-                    throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
-            }
+                            },
+                            error: function (error) {
+                                alert(error);
+                            }
+                        });
 
-            catch (error) {
-                alert(error);
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
             }
 
         },
