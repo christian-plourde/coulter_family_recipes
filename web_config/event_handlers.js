@@ -338,87 +338,88 @@ function add_recipe_button_click()
                 });
             }
 
+            //next we set the ingredients for that recipe
+            //since each of the arrays will have the same length we can loop over the ingredient_names length but set all the values (quantity and type as well)
+            for (var i = 0; i < ingredient_names.length; i++) {
+                //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
+                var recipe_ing_array = new Array();
+                recipe_ing_array.push(recipe_name, ingredient_names[i], ingredient_quantities[i], ingredient_units[i]);
+
+                $.ajax({
+                    type: 'POST',
+                    url: insertRecipeIngredientURL,
+                    data: generate_data_string(recipe_ing_array),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+
+                        //we need to parse the xml document that we received in the response
+                        var parser = new DOMParser();
+                        var xml_doc;
+                        try {
+
+                            var xml_doc = parser.parseFromString(response.d, "text/xml");
+                            var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                            if (accepted == "false")
+                                throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+                        }
+
+                        catch (error) {
+                            alert(error);
+                        }
+
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+
+            //finally we set the directions for that recipe
+            for (var i = 0; i < directions.length; i++) {
+                //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
+                var recipe_dir_array = new Array();
+                recipe_dir_array.push(recipe_name, (i + 1), directions[i]);
+                $.ajax({
+                    type: 'POST',
+                    url: insertRecipeDirectionURL,
+                    data: generate_data_string(recipe_dir_array),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+
+                        //we need to parse the xml document that we received in the response
+                        var parser = new DOMParser();
+                        var xml_doc;
+                        try {
+
+                            var xml_doc = parser.parseFromString(response.d, "text/xml");
+                            var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                            if (accepted == "false")
+                                throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+                        }
+
+                        catch (error) {
+                            alert(error);
+                        }
+
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+
+            //once we have reached this point we know that the recipe was added successfully
+            //we should display a message to say that it worked properly
+            alert("Recipe was added successfully");
+
         },
         error: function (error) {
             alert(error);
         }
     });
 
-    //next we set the ingredients for that recipe
-    //since each of the arrays will have the same length we can loop over the ingredient_names length but set all the values (quantity and type as well)
-    for (var i = 0; i < ingredient_names.length; i++) {
-        //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
-        var recipe_ing_array = new Array();
-        recipe_ing_array.push(recipe_name, ingredient_names[i], ingredient_quantities[i], ingredient_units[i]);
-
-        $.ajax({
-            type: 'POST',
-            url: insertRecipeIngredientURL,
-            data: generate_data_string(recipe_ing_array),
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            success: function (response) {
-
-                //we need to parse the xml document that we received in the response
-                var parser = new DOMParser();
-                var xml_doc;
-                try {
-
-                    var xml_doc = parser.parseFromString(response.d, "text/xml");
-                    var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
-                    if (accepted == "false")
-                        throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
-                }
-
-                catch (error) {
-                    alert(error);
-                }
-
-            },
-            error: function (error) {
-                alert(error);
-            }
-        });
-    }
-
-    //finally we set the directions for that recipe
-    for (var i = 0; i < directions.length; i++) {
-        //since type can be empty, i.e. it has the value 0, if this is the case the query must be modified to put null in that position
-        var recipe_dir_array = new Array();
-        recipe_dir_array.push(recipe_name, (i + 1), directions[i]);
-        $.ajax({
-            type: 'POST',
-            url: insertRecipeDirectionURL,
-            data: generate_data_string(recipe_dir_array),
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            success: function (response) {
-
-                //we need to parse the xml document that we received in the response
-                var parser = new DOMParser();
-                var xml_doc;
-                try {
-
-                    var xml_doc = parser.parseFromString(response.d, "text/xml");
-                    var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
-                    if (accepted == "false")
-                        throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
-                }
-
-                catch (error) {
-                    alert(error);
-                }
-
-            },
-            error: function (error) {
-                alert(error);
-            }
-        });
-    }
-
-    //once we have reached this point we know that the recipe was added successfully
-    //we should display a message to say that it worked properly
-    alert("Recipe was added successfully");
 }
 
 function recipe_name_click()
