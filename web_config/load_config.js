@@ -14,6 +14,9 @@ var updateRecipeAccessTimeURL;
 var loadDirectionsURL;
 var deleteRecipeURL;
 var searchByNameURL;
+var uploadFileURL;
+var recipeImagesDirectoryURL;
+var getImageFilePathURL;
 
 if (typeof window.DOMParser != "undefined") {
     var xmlhttp = new XMLHttpRequest();
@@ -38,6 +41,9 @@ if (typeof window.DOMParser != "undefined") {
     updateRecipeAccessTimeURL = config_xml.getElementsByTagName("updateRecipeAccessTimeURL")[0].childNodes[0].nodeValue;
     deleteRecipeURL = config_xml.getElementsByTagName("deleteRecipeURL")[0].childNodes[0].nodeValue;
     searchByNameURL = config_xml.getElementsByTagName("searchByNameURL")[0].childNodes[0].nodeValue;
+    uploadFileURL = config_xml.getElementsByTagName("uploadFileURL")[0].childNodes[0].nodeValue;
+    recipeImagesDirectoryURL = config_xml.getElementsByTagName("recipeImagesDirectoryURL")[0].childNodes[0].nodeValue;
+    getImageFilePathURL = config_xml.getElementsByTagName("getImageFilePathURL")[0].childNodes[0].nodeValue;
 }
 
 else {
@@ -59,4 +65,7 @@ else {
     updateRecipeAccessTimeURL = config_xml.selectNodes("updateRecipeAccessTimeURL")[0].xml;
     deleteRecipeURL = config_xml.selectNodes("deletRecipeURL")[0].xml;
     searchByNameURL = config_xml.selectNodes("searchByNameURL")[0].xml;
+    uploadFileURL = config_xml.selectNodes("uploadFileURL")[0].xml;
+    recipeImagesDirectoryURL = config_xml.selectNodes("recipeDirectoryImagesURL")[0].xml;
+    getImageFilePathURL = config_xml.selectNodes("getImageFilePathURL")[0].xml;
 } 

@@ -63,6 +63,29 @@ function load_ingredients()
                     new_row.cells[1].innerHTML = ing_unit;
                     new_row.cells[2].innerHTML = ing_name;
                 }
+
+                var get_image_file_params = new Array();
+                get_image_file_params.push(recipe_context);
+
+                //when doing this we also need to load the image for the recipe
+                $.ajax({
+                    type: 'POST',
+                    url: getImageFilePathURL,
+                    data: generate_data_string(get_image_file_params),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+
+                        document.getElementById("recipe_image").src = recipeImagesDirectoryURL + response.d;
+
+                        //finally we should set the properties of the recipe image
+                        document.getElementById("recipe_image").style.height = document.getElementById("ingredients_list").style.height;
+
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
             }
 
             catch (error) {

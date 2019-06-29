@@ -15,17 +15,31 @@
     <div id="title_bar">
         <img id="home_button" src="web_config/images/home_light_blue.png" onclick="add_recipe_home_click()" />
     </div>
+
+    <div id="add_recipe_image_div">
+        <p id="add_recipe_image_header">Upload an image</p>
+        <iframe name="form_submit" style="display:none;"></iframe>
+        <form action="coulter_family_recipes.asmx/upload_file" method="post" enctype="multipart/form-data" target="form_submit" onsubmit="file_upload_submit()">
+            <input type="file" name="fileToUpload" id="file_selector">
+            <input type="text" name="web_page_name" id="web_page_name_input" style="display:none">
+            <input type="submit" value="Upload Image" name="submit" id="upload_image_submit" >
+        </form>
+    </div>
+
     <!--This div will contain the ingredients for the recipe-->
     <div id="ingredients_list">
+        <img id="recipe_image" onerror="this.style.display = 'none'">
         <p id="ingredients_header"></p>
     </div>
     <div id="directions_list">
         
     </div>
+
     <script>
         //set the title of the page to the name of the recipe
         document.getElementById("ingredients_header").innerHTML = recipe_context + " Ingredients:";
         document.getElementById("title_bar").innerHTML += recipe_context;
+        document.getElementById("web_page_name_input").value = recipe_context;
         var printer_button = document.createElement("img");
         printer_button.id = "printer_button";
         printer_button.src = "web_config/images/printer_icon.png";
@@ -34,14 +48,21 @@
         var delete_button = document.createElement("img");
         delete_button.id = "delete_button";
         delete_button.src = "web_config/images/trash_can.png";
-        delete_button.onclick = function () { delete_button_click();};
+        delete_button.onclick = function () { delete_button_click(); };
+
+        var camera_button = document.createElement("img");
+        camera_button.id = "camera_button";
+        camera_button.src = "web_config/images/camera_light_blue.png";
+        camera_button.onclick = function () { camera_button_click(); };
 
         document.getElementById("title_bar").appendChild(printer_button);
         document.getElementById("title_bar").appendChild(delete_button);
+        document.getElementById("title_bar").appendChild(camera_button);
 
         document.getElementsByTagName("title")[0].innerHTML = recipe_context;
         load_ingredients();
         load_directions();
+        
     </script>
 </body>
 </html>

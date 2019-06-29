@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Xml;
 using System.Configuration;
 using SQLManager;
+using System.IO;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -90,7 +91,7 @@ public class coulter_family_recipes : System.Web.Services.WebService
         cleaner.remove_quotes(ref data_2);
         cleaner.remove_quotes(ref data_3);
         //case where there are no units
-        if(data_3 == "0")
+        if (data_3 == "0")
             return sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["insert_recipe_ingredient_no_unit_query"], data_0, data_1, data_2));
         else
             return sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["insert_recipe_ingredient_query"], data_0, data_1, data_2, data_3));
@@ -161,19 +162,22 @@ public class coulter_family_recipes : System.Web.Services.WebService
             if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
                 throw new Exception("Failed to remove class for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
 
+            doc.LoadXml(sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["delete_recipe_query_7"], data_0)));
+            if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
+                throw new Exception("Failed to remove image for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
+
             doc.LoadXml(sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["delete_recipe_query_6"], data_0)));
             if (doc.SelectNodes("root/Accepted")[0].InnerXml != "true")
                 throw new Exception("Failed to remove name for " + data_0 + ". " + doc.SelectNodes("root/Reason")[0].InnerXml);
-
         }
 
-        catch(Exception e)
+        catch (Exception e)
         {
             return e.Message;
         }
 
         return result;
-        
+
     }
 
     [WebMethod]
@@ -182,4 +186,68 @@ public class coulter_family_recipes : System.Web.Services.WebService
         //data_0: search term (name of recipe)
         return sql_manager.SQLQuery(String.Format(ConfigurationManager.AppSettings["search_by_name_query"], data_0));
     }
+
+    [WebMethod]
+    public string upload_file()
+    {
+        string ret = "";
+        HttpRequest request = this.Context.Request;
+        HttpPostedFile file = request.Files["fileToUpload"];
+        string recipe_name = request.Form.Get("web_page_name"); //this is required for the database update
+        
+        string FileName = file.FileName;
+
+        string ext = Path.GetExtension(FileName).ToLower();
+
+        if (!(ext == ".png" || ext == ".jpg" || ext == ".jpeg"))// for only images file
+        {
+            ret = string.Format("File extension {0} not allowed.", ext);
+
+            return ret;
+        }
+
+        if (FileName != "")
+        {
+            string path = ConfigurationManager.AppSettings["recipe_images_directory"];
+
+            string UUID = System.Guid.NewGuid().ToString();
+            string filepath = "";
+            if (FileName.Contains("jpg"))
+                filepath = path + "/" + FileName;
+            else
+                filepath = path + "/" + FileName + ".jpg";
+            file.SaveAs(filepath);
+
+            //we need to link this to a particular recipe in the database
+            string file_name_for_db = FileName;
+            if (!file_name_for_db.Contains(".jpg"))
+                file_name_for_db += ".jpg";
+            sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["add_recipe_image_query"], recipe_name, file_name_for_db));
+        }
+
+        return ret;
+    }
+
+    [WebMethod]
+    public string get_file_name_for_recipe_image(string data_0)
+    {
+        //data_0 : recipe name
+
+        XmlDocument xdoc = new XmlDocument();
+        string result_xml = sql_manager.SQLQuery(String.Format(ConfigurationManager.AppSettings["get_recipe_image_query"], data_0));
+
+        try
+        {
+            xdoc.LoadXml(result_xml);
+            return xdoc.SelectNodes("root/row")[0].SelectNodes("col")[0].InnerXml;
+        }
+
+        catch
+        {
+            return result_xml;
+        }
+
+    }
+
+
 }
