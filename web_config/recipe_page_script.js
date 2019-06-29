@@ -81,7 +81,6 @@ function load_ingredients()
 
                         //finally we should set the properties of the recipe image
                         document.getElementById("recipe_image").style.height = document.getElementById("ingredients_list").style.height;
-
                     },
                     error: function (error) {
                         console.log(error);

@@ -228,7 +228,31 @@ public class coulter_family_recipes : System.Web.Services.WebService
             string file_name_for_db = FileName;
             if (!file_name_for_db.Contains(".jpg"))
                 file_name_for_db += ".jpg";
-            sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["add_recipe_image_query"], recipe_name, file_name_for_db));
+            string insert_result = sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["add_recipe_image_query"], recipe_name, file_name_for_db));
+            XmlDocument xml_doc = new XmlDocument();
+            xml_doc.LoadXml(insert_result);
+            if(xml_doc.SelectNodes("root/Accepted")[0].InnerXml == "false")
+            {
+                //if the insert failed try an update instead
+
+                //before we do this we need to save the name of the file that was there previously so we can delete it
+
+                try
+                {
+                    xml_doc.LoadXml(sql_manager.SQLQuery(String.Format(ConfigurationManager.AppSettings["get_recipe_image_query"], recipe_name)));
+                    string old_file_name = xml_doc.SelectNodes("root/row")[0].SelectNodes("col")[0].InnerXml;
+                    File.Delete(ConfigurationManager.AppSettings["recipe_images_directory"] + "/" + old_file_name);
+                    sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["update_recipe_image_query"], file_name_for_db, recipe_name));
+                }
+
+                catch
+                {
+                    return "ERROR ON UPDATING IMAGE";
+                }
+                
+
+                
+            }
         }
 
         return ret;

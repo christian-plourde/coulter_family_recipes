@@ -548,7 +548,11 @@ function file_upload_submit()
     //function that is executed when an image is successfully uploaded to server
     document.getElementById("add_recipe_image_div").style.display = "none";
     if (document.getElementById("file_selector").files.length > 0)
+    {
         alert("Image uploaded successfully");
+        location.reload();
+    }
+        
     else
         alert("No file selected");
 }
