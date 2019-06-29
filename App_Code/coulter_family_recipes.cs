@@ -197,11 +197,14 @@ public class coulter_family_recipes : System.Web.Services.WebService
     public string upload_file()
     {
         string ret = "";
+        //StreamWriter log_writer = new StreamWriter(ConfigurationManager.AppSettings["log_location"]);
         HttpRequest request = this.Context.Request;
         HttpPostedFile file = request.Files["fileToUpload"];
         string recipe_name = request.Form.Get("web_page_name"); //this is required for the database update
-        
+
         string FileName = file.FileName;
+        //log_writer.WriteLine(DateTime.Now + " -- Uploading file " + FileName);
+        //log_writer.Close();
 
         string ext = Path.GetExtension(FileName).ToLower();
 
@@ -216,7 +219,6 @@ public class coulter_family_recipes : System.Web.Services.WebService
         {
             string path = ConfigurationManager.AppSettings["recipe_images_directory"];
 
-            string UUID = System.Guid.NewGuid().ToString();
             string filepath = "";
             if (FileName.Contains("jpg"))
                 filepath = path + "/" + FileName;
@@ -234,20 +236,35 @@ public class coulter_family_recipes : System.Web.Services.WebService
             if(xml_doc.SelectNodes("root/Accepted")[0].InnerXml == "false")
             {
                 //if the insert failed try an update instead
+                //log_writer = new StreamWriter(ConfigurationManager.AppSettings["log_location"]);
+                //log_writer.WriteLine(DateTime.Now + " -- " + xml_doc.SelectNodes("root/Reason")[0].InnerXml + "\n");
+                //log_writer.Close();
 
                 //before we do this we need to save the name of the file that was there previously so we can delete it
+                ret += xml_doc.SelectNodes("root/Reason")[0].InnerXml;
 
                 try
                 {
                     xml_doc.LoadXml(sql_manager.SQLQuery(String.Format(ConfigurationManager.AppSettings["get_recipe_image_query"], recipe_name)));
                     string old_file_name = xml_doc.SelectNodes("root/row")[0].SelectNodes("col")[0].InnerXml;
                     File.Delete(ConfigurationManager.AppSettings["recipe_images_directory"] + "/" + old_file_name);
-                    sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["update_recipe_image_query"], file_name_for_db, recipe_name));
+                    string update_result = sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["update_recipe_image_query"], file_name_for_db, recipe_name));
+                    xml_doc.LoadXml(update_result);
+
+                    if(xml_doc.SelectNodes("root/Accepted")[0].InnerXml == "false")
+                    {
+                        //log_writer = new StreamWriter(ConfigurationManager.AppSettings["log_location"]);
+                        //log_writer.WriteLine(DateTime.Now + " -- " + xml_doc.SelectNodes("root/Reason")[0].InnerXml + "\n");
+                        //log_writer.Close();
+                        ret += xml_doc.SelectNodes("root/Reason")[0].InnerXml;
+                    }
                 }
 
-                catch
+                catch(Exception e)
                 {
-                    return "ERROR ON UPDATING IMAGE";
+                    //log_writer = new StreamWriter(ConfigurationManager.AppSettings["log_location"]);
+                    //log_writer.WriteLine(DateTime.Now + " -- " + e.Message + "\n");
+                    //log_writer.Close();
                 }
                 
 

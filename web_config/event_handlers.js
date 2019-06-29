@@ -549,8 +549,7 @@ function file_upload_submit()
     document.getElementById("add_recipe_image_div").style.display = "none";
     if (document.getElementById("file_selector").files.length > 0)
     {
-        alert("Image uploaded successfully");
-        location.reload();
+
     }
         
     else
