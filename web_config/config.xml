@@ -16,6 +16,6 @@
   <deleteRecipeURL>http://192.168.2.12/coulter_family_recipes.asmx/delete_recipe</deleteRecipeURL>
   <searchByNameURL>http://192.168.2.12/coulter_family_recipes.asmx/search_by_name</searchByNameURL>
   <getImageFilePathURL>http://192.168.2.12/coulter_family_recipes.asmx/get_file_name_for_recipe_image</getImageFilePathURL>
-  <uploadFileURL>coulter_family_recipes.asmx/upload_file</uploadFileURL>
+  <uploadFileURL>http://192.168.2.12/coulter_family_recipes.asmx/upload_file</uploadFileURL>
   <recipeImagesDirectoryURL>http://192.168.2.12/Recipe_Images/</recipeImagesDirectoryURL>
 </root>

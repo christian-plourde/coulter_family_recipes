@@ -131,7 +131,13 @@ public class coulter_family_recipes : System.Web.Services.WebService
     public string update_recipe_access_time(string data_0)
     {
         //data_0: recipe name
-        return sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["update_recipe_access_time_query"], data_0, DateTime.Now));
+        XmlDocument xml_doc = new XmlDocument();
+        string insert_result = sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["update_recipe_access_time_query"], data_0, DateTime.Now));
+        xml_doc.LoadXml(insert_result);
+        if (xml_doc.SelectNodes("root/Accepted")[0].InnerXml == "false")
+            return sql_manager.SQLTransaction(String.Format(ConfigurationManager.AppSettings["update_recipe_access_time_query_2"], DateTime.Now, data_0));
+        else
+            return insert_result;
     }
 
     [WebMethod]

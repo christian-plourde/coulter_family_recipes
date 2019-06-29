@@ -77,6 +77,7 @@ function load_ingredients()
                     success: function (response) {
 
                         document.getElementById("recipe_image").src = recipeImagesDirectoryURL + response.d;
+                        
 
                         //finally we should set the properties of the recipe image
                         document.getElementById("recipe_image").style.height = document.getElementById("ingredients_list").style.height;

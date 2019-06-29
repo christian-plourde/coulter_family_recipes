@@ -430,7 +430,6 @@ function recipe_name_click()
 
     var recipe_access_array = new Array();
     recipe_access_array.push(event.srcElement.innerHTML);
-
     $.ajax({
         type: 'POST',
         url: updateRecipeAccessTimeURL,
@@ -438,7 +437,7 @@ function recipe_name_click()
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         success: function (response) {
-
+            
         },
         error: function (error) {
             console.log(error);

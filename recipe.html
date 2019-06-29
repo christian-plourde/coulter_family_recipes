@@ -19,7 +19,10 @@
     <div id="add_recipe_image_div">
         <p id="add_recipe_image_header">Upload an image</p>
         <iframe name="form_submit" style="display:none;"></iframe>
-        <form action="coulter_family_recipes.asmx/upload_file" method="post" enctype="multipart/form-data" target="form_submit" onsubmit="file_upload_submit()">
+        <form id="upload_file_form" method="post" enctype="multipart/form-data" target="form_submit" onsubmit="file_upload_submit()">
+            <script>
+                document.getElementById("upload_file_form").action = uploadFileURL;
+            </script>
             <input type="file" name="fileToUpload" id="file_selector">
             <input type="text" name="web_page_name" id="web_page_name_input" style="display:none">
             <input type="submit" value="Upload Image" name="submit" id="upload_image_submit" >
