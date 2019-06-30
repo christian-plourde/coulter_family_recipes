@@ -224,7 +224,7 @@ function add_recipe_button_click()
         try {
             for (var i = 0; i < directions.length; i++) {
                 if (directions[i] == "")
-                    throw "An direction cannot be empty.";
+                    throw "A direction cannot be empty.";
             }
         }
 
@@ -374,6 +374,39 @@ function add_recipe_button_click()
                     }
                 });
             }
+
+            //next we set the type for the recipe
+            var recipe_type_array = new Array();
+            recipe_type_array.push(recipe_name, recipe_type);
+
+            $.ajax({
+                type: 'POST',
+                url: setRecipeTypeURL,
+                data: generate_data_string(recipe_type_array),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+
+                    //we need to parse the xml document that we received in the response
+                    var parser = new DOMParser();
+                    var xml_doc;
+                    try {
+
+                        var xml_doc = parser.parseFromString(response.d, "text/xml");
+                        var accepted = xml_doc.getElementsByTagName("Accepted")[0].childNodes[0].nodeValue;
+                        if (accepted == "false")
+                            throw xml_doc.getElementsByTagName("Reason")[0].childNodes[0].nodeValue;
+                    }
+
+                    catch (error) {
+                        alert(error);
+                    }
+
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
 
             //finally we set the directions for that recipe
             for (var i = 0; i < directions.length; i++) {
