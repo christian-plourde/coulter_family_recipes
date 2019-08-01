@@ -483,6 +483,7 @@ function get_recipe_name_from_url()
     var url = location.href;
     var recipe_name = url.substr(url.indexOf('=') + 1);
     recipe_name = recipe_name.replace(/%20/g, ' ');
+    recipe_name = recipe_name.replace(/%27/g, "'");
     return(recipe_name);
 }
 

@@ -48,6 +48,7 @@ public class coulter_family_recipes : System.Web.Services.WebService
     [WebMethod]
     public string get_recipes_by_category(string data_0)
     {
+        cleaner.remove_quotes(ref data_0);
         return sql_manager.SQLQuery(String.Format(ConfigurationManager.AppSettings["get_recipes_by_category_query"], data_0));
     }
 
@@ -144,6 +145,7 @@ public class coulter_family_recipes : System.Web.Services.WebService
     public string delete_recipe(string data_0)
     {
         //data_0: recipe name
+        cleaner.remove_quotes(ref data_0);
         string result = "Recipe was deleted successfully.";
         XmlDocument doc = new XmlDocument();
         try
@@ -190,6 +192,7 @@ public class coulter_family_recipes : System.Web.Services.WebService
     public string search_by_name(string data_0)
     {
         //data_0: search term (name of recipe)
+        cleaner.remove_quotes(ref data_0);
         return sql_manager.SQLQuery(String.Format(ConfigurationManager.AppSettings["search_by_name_query"], data_0));
     }
 
@@ -279,7 +282,7 @@ public class coulter_family_recipes : System.Web.Services.WebService
     public string get_file_name_for_recipe_image(string data_0)
     {
         //data_0 : recipe name
-
+        cleaner.remove_quotes(ref data_0);
         XmlDocument xdoc = new XmlDocument();
         string result_xml = sql_manager.SQLQuery(String.Format(ConfigurationManager.AppSettings["get_recipe_image_query"], data_0));
 
